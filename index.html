@@ -884,7 +884,7 @@ function calculateDailyWorkers() {
         case "ارضيات":
             resultLines.push("1 خلفة");
             resultLines.push("1 مساعد");
-            resultLines.push("1 خباط");
+            resultLines.push("2 خباط");
             break;
         case "سيراميك":
             resultLines.push("1 خلفة");
@@ -1173,7 +1173,7 @@ function calculateConcreteC1C4() {
             }
 
             const C2 = L3 * Y3 * X3;
-            const steel2 = parseFloat((C2 * 0.1).toFixed(2));
+            const steel2 = parseFloat((C2 * 0.14).toFixed(2));
             totalVolume += C2;
             totalSteel += steel2;
             resultLines.push(`الجسر:\n  الحجم: ${C2.toFixed(2)} م³\n  الحديد: ${steel2} طن`);
@@ -1191,7 +1191,7 @@ function calculateConcreteC1C4() {
             }
 
             const C3 = L4 * X4 * Y4 * n;
-            const steel3 = parseFloat((C3 * 0.1).toFixed(2));
+            const steel3 = parseFloat((C3 * 0.2).toFixed(2));
             totalVolume += C3;
             totalSteel += steel3;
             resultLines.push(`الأعمدة:\n  الحجم: ${C3.toFixed(2)} م³\n  الحديد: ${steel3} طن`);
@@ -1231,7 +1231,7 @@ function calculateConcreteC1C4() {
             const V2 = Y6_new * X6 * L6 * 0.5 * Z_actual_steps;
 
             const C4 = V1 + V2;
-            const steel4 = parseFloat((C4 * 0.1).toFixed(2));
+            const steel4 = parseFloat((C4 * 0.12).toFixed(2));
             totalVolume += C4;
             totalSteel += steel4;
             resultLines.push(`الدرج:\n  عدد البايات الكلي: ${Z_total}\n  ارتفاع البايه الجديد: ${Y6_new.toFixed(3)} م\n  الحجم: ${C4.toFixed(2)} م³\n  الحديد: ${steel4} طن`);
@@ -1656,3 +1656,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
