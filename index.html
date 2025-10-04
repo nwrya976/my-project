@@ -295,48 +295,6 @@ button:hover {
         transform: translateX(0);
     }
 }
-  /* تحسين العرض على الهواتف */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px 10px;
-        margin-top: 40px;
-    }
-
-    h1 {
-        font-size: 22px;
-    }
-
-    h2, h3 {
-        font-size: 18px;
-    }
-
-    input, select, textarea, button {
-        font-size: 0.9rem;
-        padding: 8px 10px;
-    }
-
-    /* يخلي الجدول يلف يمين ويسار */
-    table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    th, td {
-        font-size: 0.85rem;
-        padding: 6px;
-    }
-
-    /* يخلي الأزرار جنب بعض */
-    .inline-buttons {
-        flex-direction: column;
-    }
-
-    .inline-buttons button {
-        width: 100%;
-    }
-}
-  
   </style>
 </head>
 <body>
@@ -357,14 +315,14 @@ button:hover {
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حساب الكميات  </title>
+    <title>حساب الكميات والاسعار </title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="toast" class="toast">تم تنفيذ العملية بنجاح</div>
 
     <header>
-        <h1>حساب الكميات </h1>
+        <h1>حساب الكميات و الاسعار</h1>
     </header>
 
     <main>
@@ -416,15 +374,15 @@ button:hover {
                         <input type="number" id="H2" step="any">
                     </div>
                     <div class="input-group">
-                        <label for="A1">مساحة البناية :</label>
+                        <label for="A1">مساحة البناية (A1):</label>
                         <input type="number" id="A1" step="any">
                     </div>
                     <div class="input-group">
-                        <label for="V1">حجم السيارة :</label>
+                        <label for="V1">حجم السيارة (V1):</label>
                         <input type="number" id="V1" step="any">
                     </div>
                     <div class="input-group">
-                        <label for="P">سعر السيارة الواحدة :</label>
+                        <label for="P">سعر السيارة الواحدة (P):</label>
                         <input type="number" id="P" step="any">
                     </div>
                 </div>
@@ -433,19 +391,19 @@ button:hover {
 <div id="fill-inputs" class="input-subsection">
                     <h3>بيانات الردم (السبيس)</h3>
                     <div class="input-group">
-                        <label for="A2">مساحة البناية + ممشى العمال :</label>
+                        <label for="A2">مساحة البناية + ممشى العمال (A2):</label>
                         <input type="number" id="A2" step="any">
                     </div>
                     <div class="input-group">
-                        <label for="H3">ارتفاع الردم (سم) :</label>
+                        <label for="H3">ارتفاع الردم (سم) (H3):</label>
                         <input type="number" id="H3" step="any">
                     </div>
                     <div class="input-group">
-                        <label for="V2">حجم السيارة :</label>
+                        <label for="V2">حجم السيارة (V2):</label>
                         <input type="number" id="V2" step="any">
                     </div>
                     <div class="input-group">
-                        <label for="P1">سعر السيارة الواحدة :</label>
+                        <label for="P1">سعر السيارة الواحدة (P1):</label>
                         <input type="number" id="P1" step="any">
                     </div>
                 </div>
@@ -618,7 +576,7 @@ button:hover {
         </section>
 
         <section class="calculator-group">
-            <h2 class="section-title" data-target="plaster-white-section">حساب الجص / الابياض </h2>
+            <h2 class="section-title" data-target="plaster-white-section">حساب الجص / الأبيّض</h2>
             <div id="plaster-white-section" class="calculator-content hidden-content">
                 <div class="input-group">
                     <label for="roomLength">طول الغرفة (م):</label>
@@ -662,7 +620,7 @@ button:hover {
                     </div>
                     <div>
                         <input type="radio" id="materialTypeWhite" name="materialType" value="white" onchange="togglePlasterWhiteThickness()">
-                        <label for="materialTypeWhite">الابياض</label>
+                        <label for="materialTypeWhite">الأبيّض</label>
                     </div>
                 </div>
 
@@ -671,7 +629,7 @@ button:hover {
                     <input type="number" id="plasterThickness" value="0.02" step="any">
                 </div>
                 <div class="input-group" id="whiteThicknessGroup" style="display:none;">
-                    <label for="whiteThickness">سماكة الابياض (م):</label>
+                    <label for="whiteThickness">سماكة الأبيّض (م):</label>
                     <input type="number" id="whiteThickness" value="0.01" step="any">
                 </div>
 
@@ -926,7 +884,7 @@ function calculateDailyWorkers() {
         case "ارضيات":
             resultLines.push("1 خلفة");
             resultLines.push("1 مساعد");
-            resultLines.push("1 خباط");
+            resultLines.push("2 خباط");
             break;
         case "سيراميك":
             resultLines.push("1 خلفة");
@@ -1000,7 +958,7 @@ function calculateExcavationFill() {
             resultLines.push(`عمق الحفر: ${Y.toFixed(2)} م`);
             resultLines.push(`كمية الحفر: ${T.toFixed(2)} م³`);
             resultLines.push(`عدد السيارات المطلوبة: ${N.toFixed(2)}`);
-            resultLines.push(`التكلفة الكلية للسيارات: ${formatNumber(totalPriceHfr)} د.ع`);
+            resultLines.push(`السعر الكلي للحفر: ${formatNumber(totalPriceHfr)} د.ع`);
         }
 
         // ----- Fill Calculation -----
@@ -1025,7 +983,7 @@ function calculateExcavationFill() {
                 const priceRdm = N1 * P1;
                 resultLines.push(`كمية الردم: ${T2.toFixed(2)} م³`);
                 resultLines.push(`عدد السيارات: ${N1.toFixed(2)}`);
-                resultLines.push(`التكلفة الكلية للسيارات: ${formatNumber(priceRdm)} د.ع`);
+                resultLines.push(`السعر الكلي للردم: ${formatNumber(priceRdm)} د.ع`);
             } else {
                 // Two layers for compaction over 25cm
                 const H3_half = H3_m / 2;
@@ -1062,33 +1020,33 @@ function calculateExcavationFill() {
 // =======================================================
 const concreteComponentsData = {
     "سقف": [
-        { id: "Y1", label: " (ارتفاع السقف)" },
-        { id: "L1", label: " (طول السقف)" },
-        { id: "X1", label: " (عرض السقف)" },
-        { id: "L2", label: " (طول المنور)", optional: true },
-        { id: "X2", label: " (عرض المنور)", optional: true },
-        { id: "LS", label: " (طول فتحة الدرج)", optional: true },
-        { id: "XS", label: " (عرض فتحة الدرج)", optional: true }
+        { id: "Y1", label: "Y1 (ارتفاع السقف)" },
+        { id: "L1", label: "L1 (طول السقف)" },
+        { id: "X1", label: "X1 (عرض السقف)" },
+        { id: "L2", label: "L2 (طول المنور)", optional: true },
+        { id: "X2", label: "X2 (عرض المنور)", optional: true },
+        { id: "LS", label: "LS (طول فتحة الدرج)", optional: true },
+        { id: "XS", label: "XS (عرض فتحة الدرج)", optional: true }
     ],
     "جسر": [
-        { id: "L3", label: " (طول الجسر)" },
-        { id: "X3", label: " (عرض الجسر)" },
-        { id: "Y3", label: " (ارتفاع الجسر)" }
+        { id: "L3", label: "L3 (طول الجسر)" },
+        { id: "X3", label: "X3 (عرض الجسر)" },
+        { id: "Y3", label: "Y3 (ارتفاع الجسر)" }
     ],
     "أعمدة": [
-        { id: "L4", label: " (طول العمود)" },
-        { id: "X4", label: " (عرض العمود)" },
-        { id: "Y4", label: " (ارتفاع العمود)" },
-        { id: "n", label: " (عدد الأعمدة)", type: "int" }
+        { id: "L4", label: "L4 (طول العمود)" },
+        { id: "X4", label: "X4 (عرض العمود)" },
+        { id: "Y4", label: "Y4 (ارتفاع العمود)" },
+        { id: "n", label: "n (عدد الأعمدة)", type: "int" }
     ],
     "درج": [
-        { id: "Y5", label: " (ارتفاع الطابق مع السقف)" },
-        { id: "Y6", label: " (ارتفاع البايه)" },
-        { id: "L6", label: " (طول البايه)" },
-        { id: "X6", label: " (عرض البايه)" },
-        { id: "N_stairs", label: " (عدد الاستراحات)", type: "int" },
-        { id: "L7", label: " (طول الاستراحة)", optional: true },
-        { id: "X7", label: " (عرض الاستراحة)", optional: true }
+        { id: "Y5", label: "Y5 (ارتفاع الطابق مع السقف)" },
+        { id: "Y6", label: "Y6 (ارتفاع البايه)" },
+        { id: "L6", label: "L6 (طول البايه)" },
+        { id: "X6", label: "X6 (عرض البايه)" },
+        { id: "N_stairs", label: "N (عدد الاستراحات)", type: "int" },
+        { id: "L7", label: "L7 (طول الاستراحة)", optional: true },
+        { id: "X7", label: "X7 (عرض الاستراحة)", optional: true }
     ]
 };
 
@@ -1373,7 +1331,7 @@ function calculateTilePorcelain() {
 
         const result =
             `نوع البلاط: ${tileType}\n` +
-            `التكلفة لكل متر مربع: ${formatNumber(pricePerM2)} د.ع\n` +
+            `السعر لكل متر مربع: ${formatNumber(pricePerM2)} د.ع\n` +
             `عدد البلاطات المطلوبة: ${Math.ceil(numTiles)} بلاطة\n` + // Round up for tiles
             `الكلفة الكلية: ${formatNumber(totalCost)} د.ع`;
 
@@ -1388,10 +1346,17 @@ function calculateTilePorcelain() {
 // =======================================================
 // 6. حساب الطابوق والأسمنت (Equivalent to open_tab4)
 // =======================================================
+// =======================================================
+// حساب الطابوق والأسمنت والرمل (جدار سماكة 24 سم)
+// =======================================================
+
+// حساب الطابوق والأسمنت لجدار سماكته 24 سم
+// =======================================================
+
 function updateWindowDoorFields(type) {
     const numElements = type === 'window' ? getInputValue('numWindows', true, 'int') : getInputValue('numDoors', true, 'int');
     const container = type === 'window' ? document.getElementById('windowFieldsContainer') : document.getElementById('doorFieldsContainer');
-    container.innerHTML = ''; // Clear existing fields
+    container.innerHTML = '';
 
     for (let i = 0; i < numElements; i++) {
         const div = document.createElement('div');
@@ -1403,8 +1368,8 @@ function updateWindowDoorFields(type) {
         heightInput.type = 'number';
         heightInput.id = `${type}Height${i}`;
         heightInput.step = 'any';
-        heightInput.value = '0'; // Default to 0
-        heightInput.style.width = '70px'; // Small width
+        heightInput.value = '0';
+        heightInput.style.width = '70px';
         heightInput.classList.add(`${type}-height-input`);
 
         const widthLabel = document.createElement('label');
@@ -1413,8 +1378,8 @@ function updateWindowDoorFields(type) {
         widthInput.type = 'number';
         widthInput.id = `${type}Width${i}`;
         widthInput.step = 'any';
-        widthInput.value = '0'; // Default to 0
-        widthInput.style.width = '70px'; // Small width
+        widthInput.value = '0';
+        widthInput.style.width = '70px';
         widthInput.classList.add(`${type}-width-input`);
 
         div.appendChild(heightLabel);
@@ -1453,46 +1418,64 @@ function calculateBricksCement() {
         }
 
         const netHeight1 = wallHeight - betloThickness - beamThickness;
-        // If wallLengthWithout is 0, netHeight2 calculation should not occur or be 0 to avoid negative values
         const netHeight2 = (wallLengthWithout > 0) ? (wallHeight - betloThickness) : 0;
 
         if (netHeight1 < 0 || netHeight2 < 0) {
             throw new Error("ارتفاع الحائط الصافي لا يمكن أن يكون سالباً. تأكد أن سمك البتلو والجسر لا يتجاوز ارتفاع الحائط.");
         }
 
-        const numBricks1 = (netHeight1 / BRICK_HEIGHT) * (wallLengthWith / BRICK_LENGTH) * 2; // *2 for double wall
-        const numBricks2 = (wallLengthWithout > 0) ? (netHeight2 / BRICK_HEIGHT) * (wallLengthWithout / BRICK_LENGTH) * 2 : 0;
+        // حساب المساحة الإجمالية للجدران
+        const wallArea1 = wallLengthWith * netHeight1;
+        const wallArea2 = (wallLengthWithout > 0) ? (wallLengthWithout * netHeight2) : 0;
+        const totalWallArea = wallArea1 + wallArea2;
 
-        let totalBricks = numBricks1 + numBricks2;
+        // -------------------------------
+        // معادلات جدار 24 سم:
+        // 1 م³ جدار = 435 طابوقة + 0.23 م³ مونة
+        // حجم كيس سمنت = 0.035 م³
+        // -------------------------------
+        const wallVolume = totalWallArea * 0.24; // لأن السماكة 24 سم = 0.24 م
+        const totalBricks = 435 * wallVolume*1.05;
+        const mortarVolume = 0.23 * wallVolume;
 
-        let bricksRemoved = 0;
-        // Collect window dimensions dynamically
+        // طرح الشبابيك والأبواب من الطابوق
+        let removedBricksVolume = 0;
         for (let i = 0; i < numWindows; i++) {
             const h = getInputValue(`windowHeight${i}`, true);
             const w = getInputValue(`windowWidth${i}`, true);
-            bricksRemoved += (h / BRICK_HEIGHT) * (w / BRICK_LENGTH) * 2;
+            removedBricksVolume += (h * w * 0.24);
         }
-        // Collect door dimensions dynamically
         for (let i = 0; i < numDoors; i++) {
             const h = getInputValue(`doorHeight${i}`, true);
             const w = getInputValue(`doorWidth${i}`, true);
-            bricksRemoved += (h / BRICK_HEIGHT) * (w / BRICK_LENGTH) * 2;
+            removedBricksVolume += (h * w * 0.24);
         }
 
-        let finalBricks = Math.ceil(totalBricks - bricksRemoved); // Round up as you can't have partial bricks
-        if (finalBricks < 0) finalBricks = 0; // Ensure non-negative bricks
+        const removedBricks = 435 * removedBricksVolume;
+        const finalBricks = Math.max(0, Math.ceil(totalBricks - removedBricks));
 
-        const cementBags = (finalBricks / 1000) * CEMENT_PER_1000_BRICKS; // Cement bags per 1000 bricks
+        // حساب المونة النهائية
+        const finalMortar = 0.23 * (wallVolume - removedBricksVolume);
 
+        // السمنت والرمل (نسبة 6:1)
+        const cementVolume = finalMortar / 4;
+        const sandVolume = finalMortar * 3 / 4;
+        const cementBags = Math.ceil(cementVolume / 0.035);
+
+        // التكاليف
         const costBricks = (finalBricks / 4000) * priceBricks4000;
         const costCement = cementBags * PRICE_CEMENT_BAG;
+        const totalCost = costBricks + costCement;
 
         const result =
+            `حجم الجدار = ${wallVolume.toFixed(2)} م³\n` +
             `عدد الطابوق = ${formatNumber(finalBricks)} طابوقة\n` +
-            `عدد أكياس الأسمنت = ${formatNumber(Math.ceil(cementBags))} كيس\n` + // Round up cement bags
+            `حجم المونة = ${finalMortar.toFixed(2)} م³\n` +
+            `عدد أكياس السمنت = ${cementBags} كيس\n` +
+            `حجم الرمل = ${sandVolume.toFixed(2)} م³\n` +
             `تكلفة الطابوق (${brickType}) = ${formatNumber(costBricks)} د.ع\n` +
-            `تكلفة الأسمنت = ${formatNumber(costCement)} د.ع\n` +
-            `التكلفة الكلية التقديرية = ${formatNumber(costBricks + costCement)} د.ع`;
+            `تكلفة السمنت = ${formatNumber(costCement)} د.ع\n` +
+            `التكلفة الكلية التقديرية = ${formatNumber(totalCost)} د.ع`;
 
         document.getElementById('bricksCementResult').innerText = result;
 
@@ -1501,6 +1484,9 @@ function calculateBricksCement() {
         document.getElementById('bricksCementResult').innerText = "حدث خطأ في الإدخال.";
     }
 }
+
+
+
 
 // =======================================================
 // 7. حساب الجص / الأبيّض (Equivalent to open_tab5)
@@ -1671,7 +1657,7 @@ function calculatePlasterWhite() {
             `المساحة الكلية للمادة: ${totalArea.toFixed(2)} م²\n` +
             `حجم المادة المطلوب: ${materialVolume.toFixed(3)} م³\n` +
             `عدد الأكياس المطلوبة: ${formatNumber(Math.ceil(numBags))} كيس\n` + // Round up bags
-            `التكلفة الكلية للمادة: ${formatNumber(totalCost)} د.ع`;
+            `الكلفة الكلية للمادة: ${formatNumber(totalCost)} د.ع`;
 
         document.getElementById('plasterWhiteResult').innerText = result;
 
@@ -1698,8 +1684,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-
-
-
-
