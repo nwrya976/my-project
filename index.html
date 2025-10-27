@@ -1347,12 +1347,80 @@ function calculateTilePorcelain() {
 // 6. حساب الطابوق والأسمنت (Equivalent to open_tab4)
 // =======================================================
 // =======================================================
+// // =======================================================
 // حساب الطابوق والأسمنت والرمل (جدار سماكة 24 سم)
 // =======================================================
 
-// حساب الطابوق والأسمنت لجدار سماكته 24 سم
-// =======================================================
+// تحديث حقول الأبواب والشبابيك حسب العدد
+function updateWindowDoorFields(type) {
+    const numElements = type === 'window' ? getInputValue('numWindows', true, 'int') : getInputValue('numDoors', true, 'int');
+    const container = type === 'window' ? document.getElementById('windowFieldsContainer') : document.getElementById('doorFieldsContainer');
+    container.innerHTML = '';
 
+    for (let i = 0; i < numElements; i++) {
+        const div = document.createElement('div');
+        div.className = 'dynamic-field-row';
+
+        const heightLabel = document.createElement('label');
+        heightLabel.innerText = `ارتفاع ${i + 1} (م):`;
+        const heightInput = document.createElement('input');
+        heightInput.type = 'number';
+        heightInput.id = `${type}Height${i}`;
+        heightInput.step = 'any';
+        heightInput.value = '0';
+        heightInput.style.width = '70px';
+        heightInput.classList.add(`${type}-height-input`);
+
+        const widthLabel = document.createElement('label');
+        widthLabel.innerText = `عرض ${i + 1} (م):`;
+        const widthInput = document.createElement('input');
+        widthInput.type = 'number';
+        widthInput.id = `${type}Width${i}`;
+        widthInput.step = 'any';
+        widthInput.value = '0';
+        widthInput.style.width = '70px';
+        widthInput.classList.add(`${type}-width-input`);
+
+        div.appendChild(heightLabel);
+        div.appendChild(heightInput);
+        div.appendChild(widthLabel);
+        div.appendChild(widthInput);
+        container.appendChild(div);
+    }
+}
+
+// تحديث سعر الطابوق حسب النوع
+function updateBrickPrice() {
+    const brickType = document.querySelector('input[name="brickType"]:checked').value;
+    const priceInput = document.getElementById('bricksPrice4000');
+    if (brickType === "أحمر") {
+        priceInput.value = PRICE_RED_BRICKS_4000;
+    } else {
+        priceInput.value = PRICE_BRICKS_NORMAL_4000;
+    }
+}
+
+// دالة مساعدة لقراءة القيم من الحقول
+function getInputValue(id, allowEmpty = false, type = 'float') {
+    const el = document.getElementById(id);
+    if (!el) return 0;
+    const val = el.value.trim();
+    if (val === '' && allowEmpty) return 0;
+    const num = type === 'int' ? parseInt(val) : parseFloat(val);
+    return isNaN(num) ? 0 : num;
+}
+
+// دالة تنسيق الأرقام (مثل 12,345)
+function formatNumber(num) {
+    return num.toLocaleString('ar-IQ');
+}
+
+// دالة عرض التنبيه (اختياري)
+function showAlert(msg, type) {
+    alert(msg);
+}
+6= حساب الطابوق والاسمنت
+// =======================================================
 function updateWindowDoorFields(type) {
     const numElements = type === 'window' ? getInputValue('numWindows', true, 'int') : getInputValue('numDoors', true, 'int');
     const container = type === 'window' ? document.getElementById('windowFieldsContainer') : document.getElementById('doorFieldsContainer');
@@ -1417,65 +1485,65 @@ function calculateBricksCement() {
             throw new Error("تأكد من إدخال قيم صحيحة للحائط، السماكات، والسعر (الارتفاع والسعر يجب أن يكونا أكبر من صفر).");
         }
 
+        const wallThickness = 0.24; // سمك الجدار 24 سم = 0.24 م
         const netHeight1 = wallHeight - betloThickness - beamThickness;
         const netHeight2 = (wallLengthWithout > 0) ? (wallHeight - betloThickness) : 0;
 
         if (netHeight1 < 0 || netHeight2 < 0) {
-            throw new Error("ارتفاع الحائط الصافي لا يمكن أن يكون سالباً. تأكد أن سمك البتلو والجسر لا يتجاوز ارتفاع الحائط.");
+            throw new Error("ارتفاع الحائط الصافي لا يمكن أن يكون سالباً.");
         }
 
-        // حساب المساحة الإجمالية للجدران
+        // المساحات
         const wallArea1 = wallLengthWith * netHeight1;
         const wallArea2 = (wallLengthWithout > 0) ? (wallLengthWithout * netHeight2) : 0;
         const totalWallArea = wallArea1 + wallArea2;
 
-        // -------------------------------
-        // معادلات جدار 24 سم:
-        // 1 م³ جدار = 435 طابوقة + 0.23 م³ مونة
-        // حجم كيس سمنت = 0.035 م³
-        // -------------------------------
-        const wallVolume = totalWallArea * 0.24; // لأن السماكة 24 سم = 0.24 م
-        const totalBricks = 435 * wallVolume*1.05;
-        const mortarVolume = 0.23 * wallVolume;
+        // حجم الجدار الكلي قبل طرح الفتحات
+        const totalWallVolume = totalWallArea * wallThickness;
 
-        // طرح الشبابيك والأبواب من الطابوق
-        let removedBricksVolume = 0;
+        // طرح الفتحات (نحسب حجمها)
+        let removedVolume = 0;
         for (let i = 0; i < numWindows; i++) {
             const h = getInputValue(`windowHeight${i}`, true);
             const w = getInputValue(`windowWidth${i}`, true);
-            removedBricksVolume += (h * w * 0.24);
+            removedVolume += (h * w * wallThickness);
         }
         for (let i = 0; i < numDoors; i++) {
             const h = getInputValue(`doorHeight${i}`, true);
             const w = getInputValue(`doorWidth${i}`, true);
-            removedBricksVolume += (h * w * 0.24);
+            removedVolume += (h * w * wallThickness);
         }
 
-        const removedBricks = 435 * removedBricksVolume;
-        const finalBricks = Math.max(0, Math.ceil(totalBricks - removedBricks));
+        const netWallVolume = Math.max(0, totalWallVolume - removedVolume);
 
-        // حساب المونة النهائية
-        const finalMortar = 0.23 * (wallVolume - removedBricksVolume);
+        // حسابات الطابوق والمونة
+        const totalBricksBefore = 450 * totalWallVolume; // +5% فواقد
+        const removedBricks = 450 * removedVolume;
+        const finalBricks = Math.max(0, Math.ceil(totalBricksBefore - removedBricks));
 
-        // السمنت والرمل (نسبة 6:1)
-        const cementVolume = finalMortar / 4;
-        const sandVolume = finalMortar * 3 / 4;
-        const cementBags = Math.ceil(cementVolume / 0.035);
+        const finalMortar = 0.23 * netWallVolume; // الحجم الصافي للمونة
+const cementKg = 92.8 * netWallVolume;
+const sandVolume = 0.1989 * netWallVolume;
+const cementBags = Math.ceil(cementKg / 50); // كل كيس 50 كغم
+
 
         // التكاليف
         const costBricks = (finalBricks / 4000) * priceBricks4000;
         const costCement = cementBags * PRICE_CEMENT_BAG;
         const totalCost = costBricks + costCement;
 
+        // النتائج
         const result =
-            `حجم الجدار = ${wallVolume.toFixed(2)} م³\n` +
-            `عدد الطابوق = ${formatNumber(finalBricks)} طابوقة\n` +
-            `حجم المونة = ${finalMortar.toFixed(2)} م³\n` +
-            `عدد أكياس السمنت = ${cementBags} كيس\n` +
-            `حجم الرمل = ${sandVolume.toFixed(2)} م³\n` +
-            `تكلفة الطابوق (${brickType}) = ${formatNumber(costBricks)} د.ع\n` +
-            `تكلفة السمنت = ${formatNumber(costCement)} د.ع\n` +
-            `التكلفة الكلية التقديرية = ${formatNumber(totalCost)} د.ع`;
+            `📏 حجم الجدار الكلي قبل طرح الفتحات = ${totalWallVolume.toFixed(2)} م³\n` +
+            `🪟 حجم الفتحات (الأبواب + الشبابيك) = ${removedVolume.toFixed(2)} م³\n` +
+            `📐 الحجم الصافي بعد الطرح = ${netWallVolume.toFixed(2)} م³\n\n` +
+            `🧱 عدد الطابوق = ${formatNumber(finalBricks)} طابوقة\n` +
+            `🪣 حجم المونة = ${finalMortar.toFixed(2)} م³\n` +
+            `💼 عدد أكياس السمنت = ${cementBags} كيس\n` +
+            `🏖️ حجم الرمل = ${sandVolume.toFixed(2)} م³\n\n` +
+            `💰 تكلفة الطابوق (${brickType}) = ${formatNumber(costBricks)} د.ع\n` +
+            `💰 تكلفة السمنت = ${formatNumber(costCement)} د.ع\n` +
+            `💵 التكلفة الكلية التقديرية = ${formatNumber(totalCost)} د.ع`;
 
         document.getElementById('bricksCementResult').innerText = result;
 
