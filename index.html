@@ -1419,8 +1419,8 @@ function formatNumber(num) {
 function showAlert(msg, type) {
     alert(msg);
 }
-6= حساب الطابوق والاسمنت
-// =======================================================
+// 6. حساب الطابوق والمونة (طابوق + أسمنت + رمل)
+// ===============================================
 function updateWindowDoorFields(type) {
     const numElements = type === 'window' ? getInputValue('numWindows', true, 'int') : getInputValue('numDoors', true, 'int');
     const container = type === 'window' ? document.getElementById('windowFieldsContainer') : document.getElementById('doorFieldsContainer');
@@ -1517,15 +1517,14 @@ function calculateBricksCement() {
         const netWallVolume = Math.max(0, totalWallVolume - removedVolume);
 
         // حسابات الطابوق والمونة
-        const totalBricksBefore = 450 * totalWallVolume; // +5% فواقد
+        const totalBricksBefore = 450 * totalWallVolume ; // +5% فواقد
         const removedBricks = 450 * removedVolume;
         const finalBricks = Math.max(0, Math.ceil(totalBricksBefore - removedBricks));
 
-        const finalMortar = 0.23 * netWallVolume; // الحجم الصافي للمونة
-const cementKg = 92.8 * netWallVolume;
-const sandVolume = 0.1989 * netWallVolume;
-const cementBags = Math.ceil(cementKg / 50); // كل كيس 50 كغم
-
+        const finalMortar = 0.23 * netWallVolume;
+        const cementKg = 92.8 * netWallVolume;
+        const sandVolume = 0.1989 * netWallVolume;
+        const cementBags = Math.ceil(cementKg / 50);
 
         // التكاليف
         const costBricks = (finalBricks / 4000) * priceBricks4000;
