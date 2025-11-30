@@ -33,6 +33,54 @@ body {
   cursor: pointer;
   font-size: 18px;
 }
+/* تنسيق إدخال نسبة الخلط */
+.mix-ratio-container {
+    margin: 15px 0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.mix-ratio-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #00e6b8;
+    font-size: 16px;
+}
+
+.mix-inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.mix-inputs input {
+    width: 70px;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #1d1f27;
+    color: #fff;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.mix-inputs input:focus {
+    border-color: #00e6b8;
+    outline: none;
+}
+
+.mix-inputs span {
+    font-weight: bold;
+    font-size: 18px;
+    color: #6dd5ed;
+}
 
 body.light-mode {
   background: #f0f0f0;
@@ -213,7 +261,8 @@ h1 {
 }
 
 .input-group input[type="number"],
-.input-group select {
+.input-group select,
+.input-group input[type="text"] { /* تم إضافة type="text" هنا */
     width: 80%;
     padding: 12px 14px;
     border-radius: 10px;
@@ -332,6 +381,7 @@ button:hover {
                 <div class="input-group">
                     <label for="workType">اختر نوع البناء:</label>
                     <select id="workType">
+                        <option value="ألاعمال الترابية">ألاعمال الترابية</option>
                         <option value="بناء الهيكل">بناء الهيكل</option>
                         <option value="ارضيات">ارضيات</option>
                         <option value="سيراميك">سيراميك</option>
@@ -418,10 +468,22 @@ button:hover {
         <section class="calculator-group">
             <h2 class="section-title" data-target="concrete-c1-c4-section">خرسانة(السقف-الجسر-الاعمدة-الدرج)</h2>
             <div id="concrete-c1-c4-section" class="calculator-content hidden-content">
+                <div class="mix-ratio-container">
+    <label for="cementRatio">نسبة الخلط (سمنت : رمل : حصى)</label>
+    <div class="mix-inputs">
+        <input type="number" id="cementRatio" placeholder="1" step="any">
+        <span>:</span>
+        <input type="number" id="sandRatio" placeholder="2" step="any">
+        <span>:</span>
+        <input type="number" id="gravelRatio" placeholder="4" step="any">
+    </div>
+</div>
+
                 <div class="input-group">
                     <label for="concretePricePerM3">سعر المتر المكعب (د.ع):</label>
                     <input type="number" id="concretePricePerM3" value="80000" step="any">
                 </div>
+                
 
                 <div class="component-selection">
                     <h3>اختر العناصر للحساب:</h3>
@@ -455,31 +517,40 @@ button:hover {
         </section>
 
 <section class="calculator-group">
-            <h2 class="section-title" data-target="foundation-c5-section">خرسانة الأساس وصبة النضافة</h2>
-            <div id="foundation-c5-section" class="calculator-content hidden-content">
-                <div class="input-group">
-                    <label for="foundationY7">(الارتفاع):</label>
-                    <input type="number" id="foundationY7" step="any">
-                </div>
-                <div class="input-group">
-                    <label for="foundationX8"> (العرض):</label>
-                    <input type="number" id="foundationX8" step="any">
-                </div>
-                <div class="input-group">
-                    <label for="foundationL8"> (الطول):</label>
-                    <input type="number" id="foundationL8" step="any">
-                </div>
-                <div class="input-group">
-                    <label for="foundationPricePerM3">سعر المتر المكعب (د.ع):</label>
-                    <input type="number" id="foundationPricePerM3" value="80000" step="any">
-                </div>
-                <button onclick="calculateFoundationC5()">احسب</button>
-              <button onclick="clearFoundationC5Inputs()">مسح الحقول</button>
-
-                <div class="result-area" id="foundationC5Result"></div>
+    <h2 class="section-title" data-target="foundation-c5-section">خرسانة الأساس وصبة النضافة</h2>
+    <div id="foundation-c5-section" class="calculator-content hidden-content">
+        <div class="mix-ratio-container">
+            <label>نسبة الخلط (أسمنت : رمل : حصى)</label>
+            <div class="mix-inputs">
+                <input type="number" id="foundationCementRatio" placeholder="1" step="any" value="1">
+                <span>:</span>
+                <input type="number" id="foundationSandRatio" placeholder="3" step="any" value="3">
+                <span>:</span>
+                <input type="number" id="foundationGravelRatio" placeholder="6" step="any" value="6">
             </div>
-        </section>
+        </div>
+        <div class="input-group">
+            <label for="foundationY7">(الارتفاع):</label>
+            <input type="number" id="foundationY7" step="any">
+        </div>
+        <div class="input-group">
+            <label for="foundationX8"> (العرض):</label>
+            <input type="number" id="foundationX8" step="any">
+        </div>
+        <div class="input-group">
+            <label for="foundationL8"> (الطول):</label>
+            <input type="number" id="foundationL8" step="any">
+        </div>
+        <div class="input-group">
+            <label for="foundationPricePerM3">سعر المتر المكعب (د.ع):</label>
+            <input type="number" id="foundationPricePerM3" value="80000" step="any">
+        </div>
+        <button onclick="calculateFoundationC5()">احسب</button>
+        <button onclick="clearFoundationC5Inputs()">مسح الحقول</button>
 
+        <div class="result-area" id="foundationC5Result"></div>
+    </div>
+</section>
         <section class="calculator-group">
             <h2 class="section-title" data-target="tile-porcelain-section">حساب الكاشي أو البورسلين</h2>
             <div id="tile-porcelain-section" class="calculator-content hidden-content">
@@ -561,6 +632,7 @@ button:hover {
                         <input type="radio" id="brickTypeRed" name="brickType" value="أحمر" onchange="updateBrickPrice()">
                         <label for="brickTypeRed">أحمر</label>
                     </div>
+
                 </div>
                 <div class="input-group">
                     <label for="bricksPrice4000">السعر لكل 4000 طابوقة (د.ع):</label>
@@ -630,7 +702,7 @@ button:hover {
                 </div>
                 <div class="input-group" id="whiteThicknessGroup" style="display:none;">
                     <label for="whiteThickness">سماكة الأبيّض (م):</label>
-                    <input type="number" id="whiteThickness" value="0.01" step="any">
+                    <input type="number" id="whiteThickness" value="0.001" step="any">
                 </div>
 
                 <div class="input-group">
@@ -709,6 +781,9 @@ function clearConcreteC1C4Inputs() {
     document.getElementById('selectBeam').checked = false;
     document.getElementById('selectColumns').checked = false;
     document.getElementById('selectStairs').checked = false;
+    
+    // إعادة تعيين نسبة الخلط للقيمة الافتراضية
+    document.getElementById('mixRatio').value = '1:1.5:3';
 }
 </script>
 
@@ -819,6 +894,7 @@ const PRICE_TILE_PER_M2 = 8000;            // سعر الكاشي للمتر ا�
 const BRICK_HEIGHT = 0.08; // meters
 const BRICK_LENGTH = 0.24; // meters
 const CEMENT_PER_1000_BRICKS = 3.25; // أكياس الأسمنت لكل 1000 طابوقة
+const CEMENT_SPECIFIC_GRAVITY = 1440; // الوزن النوعي للأسمنت (كيلو غرام/م³)
 
 // Helper Functions
 function formatNumber(num) {
@@ -857,9 +933,11 @@ function getInputValue(id, isOptional = false, type = 'float') {
         parsedValue = parseFloat(value);
     } else if (type === 'int') {
         parsedValue = parseInt(value, 10);
+    } else if (type === 'text') {
+        return value;
     }
 
-    if (isNaN(parsedValue)) {
+    if (isNaN(parsedValue) && type !== 'text') {
         throw new Error(`الرجاء إدخال قيمة رقمية صحيحة لحقل: ${element.previousElementSibling ? element.previousElementSibling.innerText : id}`);
     }
     return parsedValue;
@@ -874,26 +952,76 @@ function calculateDailyWorkers() {
     let resultLines = [];
 
     switch (workType) {
+case "ألاعمال الترابية":
+ resultLines.push(" A-نوع العمل: حفر الأرض");
+    resultLines.push("1 حفار");
+    resultLines.push("1 جرافة صغيرة");
+    resultLines.push("2 شاحنة");
+    resultLines.push("1 مهندس + 2 عامل");
+    resultLines.push("الإنتاجية التقريبية = 150 م³/يوم");
+
+    // =========================
+    // 2- تسوية الأرض
+    // =========================
+    resultLines.push("B-نوع العمل: تسوية الأرض ");
+    resultLines.push("1 جريدير");
+    resultLines.push("1 جرافة صغيرة");
+    resultLines.push("2 شاحنة");
+    resultLines.push("1 مهندس + 2 عامل");
+    resultLines.push("الإنتاجية التقريبية = 1500 م²/يوم");
+
+    // =========================
+    // 3- دمك الأرض
+    // =========================
+    resultLines.push("C-نوع العمل: دمك الأرض");
+    resultLines.push("1 مدك");
+    resultLines.push("1 جريدير");
+    resultLines.push("1 صهريج مياه");
+    resultLines.push("1 جرافة صغيرة");
+    resultLines.push("الإنتاجية التقريبية = 200 م²/يوم عند سماكة 20 سم + 15% خسارة");
+
+    // =========================
+    // 4- ردم بالأحجار الكبيرة
+    // =========================
+    resultLines.push("D-نوع العمل: ردم بالأحجار الكبيرة");
+    resultLines.push("4 عاملين");
+    resultLines.push("جرافة صغيرة");
+    resultLines.push("الإنتاجية التقريبية = 10 م³/يوم عند سماكة 20 سم + 10% خسارة");
+
+    // =========================
+    // 5- ردم بالتربة
+    // =========================
+    resultLines.push("E-نوع العمل: ردم بالتربة");
+    resultLines.push("4 عاملين");
+    resultLines.push("جرافة صغيرة");
+    resultLines.push("مدك");
+    resultLines.push("صهريج مياه");
+    resultLines.push("الإنتاجية التقريبية = حسب الكمية والموقع");
+    break;
         case "بناء الهيكل":
             resultLines.push("1 خلفة");
             resultLines.push("1 مساعد");
             resultLines.push("1 مٌناول الطابوق");
             resultLines.push("2 عامل أيصال الخبط");
             resultLines.push("1 خباط");
+            resultLines.push("ألانتاجية التقريبية 1500 طابوقة");
             break;
         case "ارضيات":
             resultLines.push("1 خلفة");
             resultLines.push("1 مساعد");
             resultLines.push("2 خباط");
+            resultLines.push("ألانتاجية التقريبية 15 متر مربع ");
             break;
         case "سيراميك":
             resultLines.push("1 خلفة");
             resultLines.push("1 مساعد");
             resultLines.push("1 خباط");
+           resultLines.push("ألانتاجية التقريبية 10 متر مربع ");
             break;
         case "جص وابياض":
             resultLines.push("1 خلفة");
             resultLines.push("1 مساعد");
+            resultLines.push("ألانتاجية التقريبية 20 متر مربع "); 
             break;
         default:
             resultLines.push("نوع البناء غير معروف");
@@ -1016,8 +1144,10 @@ function calculateExcavationFill() {
 }
 
 // =======================================================
-// 3. C1 إلى C4 (الخرسانة: سقف، جسر، أعمدة، درج) (Equivalent to open_c1_to_c4)
 // =======================================================
+// Concrete works C1 to C4 with material estimation
+// =======================================================
+
 const concreteComponentsData = {
     "سقف": [
         { id: "Y1", label: "Y1 (ارتفاع السقف)" },
@@ -1051,10 +1181,10 @@ const concreteComponentsData = {
 };
 
 const concreteFieldsContainer = document.getElementById('concrete-fields-container');
-let concreteReportText = ""; // To store the report text for download
+let concreteReportText = ""; // لتخزين التقرير
 
 function toggleConcreteFields() {
-    concreteFieldsContainer.innerHTML = ''; // Clear existing fields
+    concreteFieldsContainer.innerHTML = ''; // تنظيف الحقول السابقة
 
     const selectedComponents = {
         roof: document.getElementById('selectRoof').checked,
@@ -1068,17 +1198,17 @@ function toggleConcreteFields() {
         div.className = 'input-group concrete-input-field';
 
         const label = document.createElement('label');
-        label.setAttribute('for', `concrete-${id}`); // Unique ID prefix
+        label.setAttribute('for', `concrete-${id}`);
         label.innerText = labelText;
         div.appendChild(label);
 
         const input = document.createElement('input');
         input.type = type;
-        input.id = `concrete-${id}`; // Unique ID prefix
+        input.id = `concrete-${id}`;
         input.step = 'any';
-        input.value = '';
         div.appendChild(input);
 
+        div.appendChild(input);
         return div;
     };
 
@@ -1138,23 +1268,21 @@ function calculateConcreteC1C4() {
     }
 
     try {
-        // Roof (C1)
+        // ===== C1 ===== (Roof)
         if (document.getElementById('selectRoof').checked) {
             const Y1 = getConcreteSpecificInput("Y1");
             const L1 = getConcreteSpecificInput("L1");
             const X1 = getConcreteSpecificInput("X1");
-            const L2 = getConcreteSpecificInput("L2", true); // Optional
-            const X2 = getConcreteSpecificInput("X2", true); // Optional
-            const LS = getConcreteSpecificInput("LS", true); // Optional
-            const XS = getConcreteSpecificInput("XS", true); // Optional
+            const L2 = getConcreteSpecificInput("L2", true);
+            const X2 = getConcreteSpecificInput("X2", true);
+            const LS = getConcreteSpecificInput("LS", true);
+            const XS = getConcreteSpecificInput("XS", true);
 
-            if (Y1 <= 0 || L1 <= 0 || X1 <= 0) {
-                throw new Error("قيم السقف (ارتفاع، طول، عرض) يجب أن تكون أكبر من صفر.");
-            }
+            if (Y1 <= 0 || L1 <= 0 || X1 <= 0) throw new Error("قيم السقف يجب أن تكون أكبر من صفر.");
 
             const C1_volume = Y1 * L1 * X1;
-            const VM = (L2 && X2) ? L2 * X2 * Y1 : 0; // Volume of manhole (منور)
-            const VS = (LS && XS) ? LS * XS * Y1 : 0; // Volume of stair opening (فتحة الدرج)
+            const VM = (L2 && X2) ? L2 * X2 * Y1 : 0;
+            const VS = (LS && XS) ? LS * XS * Y1 : 0;
             const VT = C1_volume - VM - VS;
             const steel1 = parseFloat((VT * 0.1).toFixed(2));
             totalVolume += VT;
@@ -1162,88 +1290,87 @@ function calculateConcreteC1C4() {
             resultLines.push(`السقف:\n  الحجم: ${VT.toFixed(2)} م³\n  الحديد: ${steel1} طن`);
         }
 
-        // Beam (C2)
+        // ===== C2 ===== (Beam)
         if (document.getElementById('selectBeam').checked) {
             const L3 = getConcreteSpecificInput("L3");
             const X3 = getConcreteSpecificInput("X3");
             const Y3 = getConcreteSpecificInput("Y3");
 
-            if (L3 <= 0 || X3 <= 0 || Y3 <= 0) {
-                throw new Error("قيم الجسر (طول، عرض، ارتفاع) يجب أن تكون أكبر من صفر.");
-            }
+            if (L3 <= 0 || X3 <= 0 || Y3 <= 0) throw new Error("قيم الجسر يجب أن تكون أكبر من صفر.");
 
-            const C2 = L3 * Y3 * X3;
-            const steel2 = parseFloat((C2 * 0.14).toFixed(2));
+            const C2 = L3 * X3 * Y3;
+            const steel2 = parseFloat((C2 * 0.12).toFixed(2));
             totalVolume += C2;
             totalSteel += steel2;
             resultLines.push(`الجسر:\n  الحجم: ${C2.toFixed(2)} م³\n  الحديد: ${steel2} طن`);
         }
 
-        // Columns (C3)
+        // ===== C3 ===== (Columns)
         if (document.getElementById('selectColumns').checked) {
             const L4 = getConcreteSpecificInput("L4");
             const X4 = getConcreteSpecificInput("X4");
             const Y4 = getConcreteSpecificInput("Y4");
             const n = getConcreteSpecificInput("n", false, 'int');
 
-            if (L4 <= 0 || X4 <= 0 || Y4 <= 0 || n <= 0) {
-                throw new Error("قيم الأعمدة (طول، عرض، ارتفاع، عدد) يجب أن تكون أكبر من صفر.");
-            }
+            if (L4 <= 0 || X4 <= 0 || Y4 <= 0 || n <= 0) throw new Error("قيم الأعمدة يجب أن تكون أكبر من صفر.");
 
             const C3 = L4 * X4 * Y4 * n;
-            const steel3 = parseFloat((C3 * 0.2).toFixed(2));
+            const steel3 = parseFloat((C3 * 0.13).toFixed(2));
             totalVolume += C3;
             totalSteel += steel3;
             resultLines.push(`الأعمدة:\n  الحجم: ${C3.toFixed(2)} م³\n  الحديد: ${steel3} طن`);
         }
 
-        // Stairs (C4)
+        // ===== C4 ===== (Stairs)
         if (document.getElementById('selectStairs').checked) {
-            const Y5 = getConcreteSpecificInput("Y5"); // ارتفاع الطابق مع السقف
-            const Y6 = getConcreteSpecificInput("Y6"); // ارتفاع البايه
-            const L6 = getConcreteSpecificInput("L6"); // طول البايه
-            const X6 = getConcreteSpecificInput("X6"); // عرض البايه
-            const N_stairs = getConcreteSpecificInput("N_stairs", false, 'int'); // عدد الاستراحات
-            const L7 = getConcreteSpecificInput("L7", true); // طول الاستراحة (optional)
-            const X7 = getConcreteSpecificInput("X7", true); // عرض الاستراحة (optional)
+            const Y5 = getConcreteSpecificInput("Y5");
+            const Y6 = getConcreteSpecificInput("Y6");
+            const L6 = getConcreteSpecificInput("L6");
+            const X6 = getConcreteSpecificInput("X6");
+            const N_stairs = getConcreteSpecificInput("N_stairs", false, 'int');
+            const L7 = getConcreteSpecificInput("L7", true);
+            const X7 = getConcreteSpecificInput("X7", true);
 
-            if (Y5 <= 0 || Y6 <= 0 || L6 <= 0 || X6 <= 0 || N_stairs < 0) {
-                throw new Error("الرجاء إدخال قيم صحيحة لارتفاع الطابق، ارتفاع البايه، طول وعرض البايه، وعدد الاستراحات (يجب أن تكون القيم أكبر من صفر باستثناء عدد الاستراحات يمكن أن يكون صفر).");
-            }
+            if (Y5 <= 0 || Y6 <= 0 || L6 <= 0 || X6 <= 0) throw new Error("قيم الدرج غير صحيحة.");
 
-            // Calculation Logic (from Python code, adjusted for potential stair design)
-            const Z_total = Math.floor(Y5 / Y6); // Total number of steps
-            // The python code calculates new step height Y6_new = Y5 / (Z + N). This formula is common for adjusting steps to fit total height
-            // Let's use the Python logic which seems to adjust the step height based on total steps + landings.
-            // However, the original python code has Z = Z_total - N, then Y6_new = Y5 / (Z + N). This effectively means Y6_new = Y5 / Z_total.
-            // Let's simplify this to Y6_new = Y5 / Z_total as per common practice if total steps are known and evenly distributed.
-            const Y6_new = Y5 / Z_total; // Adjusted step height
-
-            // V1: Volume of full steps and landings
-            const V1_steps = Y6_new * L6 * X6 * Z_total; // Assuming Z_total steps of full height
-            const V1_landings = (L7 && X7) ? L7 * X7 * Y6_new * N_stairs : 0; // Volume of landings
+            const Z_total = Math.floor(Y5 / Y6);
+            const Y6_new = Y5 / Z_total;
+            const V1_steps = Y6_new * L6 * X6 * Z_total;
+            const V1_landings = (L7 && X7) ? L7 * X7 * Y6_new * N_stairs : 0;
             const V1 = V1_steps + V1_landings;
-
-            // V2: Volume of the triangular part under the steps (slope)
-            // Python's V2 = y6_new * x6 * l6 * 0.5 * Z
-            // Here 'Z' was `Z = Z_total - N`. So effectively number of actual steps.
-            const Z_actual_steps = Z_total - N_stairs; // Number of actual triangular steps
+            const Z_actual_steps = Z_total - N_stairs;
             const V2 = Y6_new * X6 * L6 * 0.5 * Z_actual_steps;
-
             const C4 = V1 + V2;
             const steel4 = parseFloat((C4 * 0.12).toFixed(2));
             totalVolume += C4;
             totalSteel += steel4;
-            resultLines.push(`الدرج:\n  عدد البايات الكلي: ${Z_total}\n  ارتفاع البايه الجديد: ${Y6_new.toFixed(3)} م\n  الحجم: ${C4.toFixed(2)} م³\n  الحديد: ${steel4} طن`);
+            resultLines.push(`الدرج:\n  الحجم: ${C4.toFixed(2)} م³\n  الحديد: ${steel4} طن`);
         }
 
+        // ===== إجمالي الخرسانة =====
         const costConcrete = totalVolume * pricePerM3;
-        resultLines.push(`\nالإجمالي:\n  الحجم: ${totalVolume.toFixed(2)} م³\n  الحديد: ${totalSteel} طن\n  السعر: ${formatNumber(costConcrete)} د.ع`);
+        resultLines.push(`\nالإجمالي:\n  الحجم: ${totalVolume.toFixed(2)} م³\n  الحديد: ${totalSteel.toFixed(2)} طن\n  السعر: ${formatNumber(costConcrete)} د.ع`);
+
+        // ===== حساب المواد بناءً على النسبة =====
+        const C = parseFloat(document.getElementById('cementRatio').value) || 1;
+        const S = parseFloat(document.getElementById('sandRatio').value) || 2;
+        const G = parseFloat(document.getElementById('gravelRatio').value) || 4;
+
+        const totalParts = C + S + G;
+        const cementVolume = (totalVolume * C * 0.67) / totalParts;
+        const cementWeight = cementVolume * 1440; // كغم
+        const cementBags = cementWeight / 50; // كيس 50 كغم
+        const sandVolume = (totalVolume * S * 0.67) / totalParts;
+        const gravelVolume = (totalVolume * G * 0.67) / totalParts;
+
+        resultLines.push(`\nتقدير المواد (نسبة ${C}:${S}:${G}):`);
+        resultLines.push(`  السمنت: ${cementBags.toFixed(1)} كيس (${cementWeight.toFixed(0)} كغم)`);
+        resultLines.push(`  الرمل: ${sandVolume.toFixed(2)} م³`);
+        resultLines.push(`  الحصى: ${gravelVolume.toFixed(2)} م³`);
 
         concreteReportText = resultLines.join("\n\n");
         document.getElementById('concreteC1C4Result').innerText = concreteReportText;
         document.getElementById('downloadConcreteReportBtn').style.display = 'block';
-
     } catch (e) {
         showAlert(e.message, "error");
         document.getElementById('concreteC1C4Result').innerText = "حدث خطأ في الإدخال.";
@@ -1267,6 +1394,15 @@ function downloadConcreteReport() {
     URL.revokeObjectURL(a.href);
 }
 
+
+// =======================================================
+// // ... (الكود السابق)
+
+// =======================================================
+//// Constants (تأكد من وجود هذه الثوابت في ملفك)
+// const CEMENT_SPECIFIC_GRAVITY = 1440; // kg/m³
+// const PRICE_CEMENT_BAG = 5000;      // D.A
+
 // =======================================================
 // 4. C5 - الأساس (Equivalent to open_c5)
 // =======================================================
@@ -1276,27 +1412,81 @@ function calculateFoundationC5() {
         const X = getInputValue('foundationX8');
         const L = getInputValue('foundationL8');
         const pricePerM3 = getInputValue('foundationPricePerM3');
+        
+        // 1. Get and Validate Mix Ratio (تعديل القراءة)
+        const ratioC = getInputValue('foundationCementRatio'); // Cement Ratio
+        const ratioS = getInputValue('foundationSandRatio');   // Sand Ratio
+        const ratioG = getInputValue('foundationGravelRatio'); // Gravel Ratio
 
+        if (ratioC <= 0 || ratioS <= 0 || ratioG <= 0) {
+            throw new Error("نسبة الخلط غير صحيحة. الرجاء إدخال قيم رقمية موجبة لكل من الأسمنت والرمل والحصى.");
+        }
+        
         if (Y <= 0 || X <= 0 || L <= 0 || pricePerM3 <= 0) {
-            throw new Error("تأكد من إدخال جميع القيم بشكل صحيح ويجب أن تكون أكبر من صفر.");
+            throw new Error("تأكد من إدخال جميع القيم الهندسية والسعر بشكل صحيح ويجب أن تكون أكبر من صفر.");
         }
 
+        const sumRatios = ratioC + ratioS + ratioG;
+
+        // 2. Volume and Steel Calculation
         const volume = Y * X * L;
-        const steel = parseFloat((volume * 0.1).toFixed(2));
+        const steel = parseFloat((volume * 0.9).toFixed(2)); // Use 0.9 t/m³ for foundation
         const costConcrete = volume * pricePerM3;
 
-        const result =
-            `حجم الأساس: ${volume.toFixed(2)} م³\n` +
-            `كمية الحديد: ${steel} طن\n` +
-            `تكلفة الخرسانة: ${formatNumber(costConcrete)} د.ع`;
+        // 3. Materials Calculation (using the 0.67 factor)
+        // K = totalVolume / (0.67 * Sum_rel)
+        // Note: CEMENT_SPECIFIC_GRAVITY and PRICE_CEMENT_BAG should be defined globally
+        const K = volume / (0.67 * sumRatios);
+        
+        const C_act_vol = K * ratioC;
+        const S_act_vol = K * ratioS;
+        const G_act_vol = K * ratioG;
 
-        document.getElementById('foundationC5Result').innerText = result;
+        // Convert Cement Volume to Weight and Bags
+        const C_weight = C_act_vol * CEMENT_SPECIFIC_GRAVITY; // 1440 kg/m³
+        const C_bags = Math.ceil(C_weight / 50);             // 50kg per bag
+        const costCementBags = C_bags * PRICE_CEMENT_BAG;    // 5000 D.A
+
+        // 4. Results Display
+        let resultLines = [];
+        const mixRatioText = `${ratioC}:${ratioS}:${ratioG}`;
+        
+        resultLines.push(`**حجم الأساس:** ${volume.toFixed(2)} م³`);
+        resultLines.push(`**كمية الحديد:** ${steel} طن`);
+        resultLines.push(`**تكلفة الخرسانة (المتر):** ${formatNumber(costConcrete)} د.ع`);
+        
+        resultLines.push(`\n--- تقدير المواد (نسبة ${mixRatioText}) ---`);
+        resultLines.push(`**الأسمنت (Cement):**`);
+        resultLines.push(`  الحجم: ${C_act_vol.toFixed(2)} م³`);
+        resultLines.push(`  الأكياس: ${formatNumber(C_bags)} كيس`);
+        resultLines.push(`  التكلفة: ${formatNumber(costCementBags)} د.ع`);
+        
+        resultLines.push(`**الرمل (Sand):**`);
+        resultLines.push(`  الحجم: ${S_act_vol.toFixed(2)} م³`);
+        
+        resultLines.push(`**الحصى (Gravel):**`);
+        resultLines.push(`  الحجم: ${G_act_vol.toFixed(2)} م³`);
+
+        document.getElementById('foundationC5Result').innerText = resultLines.join('\n');
 
     } catch (e) {
         showAlert(e.message, "error");
         document.getElementById('foundationC5Result').innerText = "حدث خطأ في الإدخال.";
     }
 }
+
+function clearFoundationC5Inputs() {
+    // تحديث دالة المسح للحقول الجديدة
+    document.getElementById('foundationCementRatio').value = '1';
+    document.getElementById('foundationSandRatio').value = '3';
+    document.getElementById('foundationGravelRatio').value = '6';
+    
+    document.getElementById('foundationY7').value = '';
+    document.getElementById('foundationX8').value = '';
+    document.getElementById('foundationL8').value = '';
+    document.getElementById('foundationC5Result').innerText = '';
+}
+
 
 // =======================================================
 // 5. حساب الكاشي أو البورسلين (Equivalent to open_c6)
@@ -1347,80 +1537,12 @@ function calculateTilePorcelain() {
 // 6. حساب الطابوق والأسمنت (Equivalent to open_tab4)
 // =======================================================
 // =======================================================
-// // =======================================================
 // حساب الطابوق والأسمنت والرمل (جدار سماكة 24 سم)
 // =======================================================
 
-// تحديث حقول الأبواب والشبابيك حسب العدد
-function updateWindowDoorFields(type) {
-    const numElements = type === 'window' ? getInputValue('numWindows', true, 'int') : getInputValue('numDoors', true, 'int');
-    const container = type === 'window' ? document.getElementById('windowFieldsContainer') : document.getElementById('doorFieldsContainer');
-    container.innerHTML = '';
+// حساب الطابوق والأسمنت لجدار سماكته 24 سم
+// =======================================================
 
-    for (let i = 0; i < numElements; i++) {
-        const div = document.createElement('div');
-        div.className = 'dynamic-field-row';
-
-        const heightLabel = document.createElement('label');
-        heightLabel.innerText = `ارتفاع ${i + 1} (م):`;
-        const heightInput = document.createElement('input');
-        heightInput.type = 'number';
-        heightInput.id = `${type}Height${i}`;
-        heightInput.step = 'any';
-        heightInput.value = '0';
-        heightInput.style.width = '70px';
-        heightInput.classList.add(`${type}-height-input`);
-
-        const widthLabel = document.createElement('label');
-        widthLabel.innerText = `عرض ${i + 1} (م):`;
-        const widthInput = document.createElement('input');
-        widthInput.type = 'number';
-        widthInput.id = `${type}Width${i}`;
-        widthInput.step = 'any';
-        widthInput.value = '0';
-        widthInput.style.width = '70px';
-        widthInput.classList.add(`${type}-width-input`);
-
-        div.appendChild(heightLabel);
-        div.appendChild(heightInput);
-        div.appendChild(widthLabel);
-        div.appendChild(widthInput);
-        container.appendChild(div);
-    }
-}
-
-// تحديث سعر الطابوق حسب النوع
-function updateBrickPrice() {
-    const brickType = document.querySelector('input[name="brickType"]:checked').value;
-    const priceInput = document.getElementById('bricksPrice4000');
-    if (brickType === "أحمر") {
-        priceInput.value = PRICE_RED_BRICKS_4000;
-    } else {
-        priceInput.value = PRICE_BRICKS_NORMAL_4000;
-    }
-}
-
-// دالة مساعدة لقراءة القيم من الحقول
-function getInputValue(id, allowEmpty = false, type = 'float') {
-    const el = document.getElementById(id);
-    if (!el) return 0;
-    const val = el.value.trim();
-    if (val === '' && allowEmpty) return 0;
-    const num = type === 'int' ? parseInt(val) : parseFloat(val);
-    return isNaN(num) ? 0 : num;
-}
-
-// دالة تنسيق الأرقام (مثل 12,345)
-function formatNumber(num) {
-    return num.toLocaleString('ar-IQ');
-}
-
-// دالة عرض التنبيه (اختياري)
-function showAlert(msg, type) {
-    alert(msg);
-}
-// 6. حساب الطابوق والمونة (طابوق + أسمنت + رمل)
-// ===============================================
 function updateWindowDoorFields(type) {
     const numElements = type === 'window' ? getInputValue('numWindows', true, 'int') : getInputValue('numDoors', true, 'int');
     const container = type === 'window' ? document.getElementById('windowFieldsContainer') : document.getElementById('doorFieldsContainer');
@@ -1467,7 +1589,6 @@ function updateBrickPrice() {
         priceInput.value = PRICE_BRICKS_NORMAL_4000;
     }
 }
-
 function calculateBricksCement() {
     try {
         const wallLengthWith = getInputValue('wallLengthWith');
@@ -1482,10 +1603,9 @@ function calculateBricksCement() {
 
         if (wallLengthWith < 0 || wallLengthWithout < 0 || wallHeight <= 0 ||
             betloThickness < 0 || beamThickness < 0 || priceBricks4000 <= 0) {
-            throw new Error("تأكد من إدخال قيم صحيحة للحائط، السماكات، والسعر (الارتفاع والسعر يجب أن يكونا أكبر من صفر).");
+            throw new Error("تأكد من إدخال قيم صحيحة.");
         }
 
-        const wallThickness = 0.24; // سمك الجدار 24 سم = 0.24 م
         const netHeight1 = wallHeight - betloThickness - beamThickness;
         const netHeight2 = (wallLengthWithout > 0) ? (wallHeight - betloThickness) : 0;
 
@@ -1498,51 +1618,95 @@ function calculateBricksCement() {
         const wallArea2 = (wallLengthWithout > 0) ? (wallLengthWithout * netHeight2) : 0;
         const totalWallArea = wallArea1 + wallArea2;
 
-        // حجم الجدار الكلي قبل طرح الفتحات
-        const totalWallVolume = totalWallArea * wallThickness;
+        // حجم الجدار قبل طرح الفتحات (سماكة الجدار 24سم = 0.24م)
+        const grossWallVolume = totalWallArea * 0.24;
 
-        // طرح الفتحات (نحسب حجمها)
-        let removedVolume = 0;
+        // -----------------------------
+        // حساب حجم فتحات الشبابيك
+        // -----------------------------
+        let windowsVolume = 0;
         for (let i = 0; i < numWindows; i++) {
             const h = getInputValue(`windowHeight${i}`, true);
             const w = getInputValue(`windowWidth${i}`, true);
-            removedVolume += (h * w * wallThickness);
+            windowsVolume += h * w * 0.24;
         }
+
+        // -----------------------------
+        // حساب حجم فتحات الأبواب
+        // -----------------------------
+        let doorsVolume = 0;
         for (let i = 0; i < numDoors; i++) {
             const h = getInputValue(`doorHeight${i}`, true);
             const w = getInputValue(`doorWidth${i}`, true);
-            removedVolume += (h * w * wallThickness);
+            doorsVolume += h * w * 0.24;
         }
 
-        const netWallVolume = Math.max(0, totalWallVolume - removedVolume);
+        // الحجم الصافي للجدار
+        const netWallVolume = grossWallVolume - (windowsVolume + doorsVolume);
 
-        // حسابات الطابوق والمونة
-        const totalBricksBefore = 450 * totalWallVolume ; // +5% فواقد
-        const removedBricks = 450 * removedVolume;
-        const finalBricks = Math.max(0, Math.ceil(totalBricksBefore - removedBricks));
+        // -----------------------------
+        // حجم الطابوقة الواحدة 11×7×23 سم
+        // -----------------------------
+        const brickVolume = 0.11 * 0.07 * 0.23; // = 0.001771 م³
 
-        const finalMortar = 0.23 * netWallVolume;
-        const cementKg = 92.8 * netWallVolume;
-        const sandVolume = 0.1989 * netWallVolume;
-        const cementBags = Math.ceil(cementKg / 50);
+        // -----------------------------
+        // حساب عدد الطابوق
+        // -----------------------------
+        const numBricks =435*netWallVolume*1.05;
 
+        // -----------------------------
+        // حساب حجم المونة الجديد
+        // -----------------------------
+        const mortarVolume = netWallVolume - (numBricks * brickVolume);
+
+        // -----------------------------
+        // معادلة استخراج C
+        // المونة = 0.87 × 4C
+        // -----------------------------
+        const C = mortarVolume / (0.87 * 4);
+
+        // -----------------------------
+        // وزن السمنت
+        // -----------------------------
+  const cementWeightKg = C * 1440; // كغم
+let cementBagsRaw = cementWeightKg / 50;
+let cementBagsInt = Math.floor(cementBagsRaw); // العدد الصحيح بدون الكسر
+let cementBagsFraction = cementBagsRaw - cementBagsInt;
+
+if (cementBagsFraction >= 0.3) {
+    cementBags = cementBagsInt + 1; // إذا الكسر 0.3 فما فوق → يصعد
+} else {
+    cementBags = cementBagsInt; // إذا الكسر أقل → يبقى
+}
+
+
+
+        // -----------------------------
+        // حجم الرمل
+        // -----------------------------
+        const sandVolume = 3 * C;
+
+        // -----------------------------
         // التكاليف
-        const costBricks = (finalBricks / 4000) * priceBricks4000;
+        // -----------------------------
+        const costBricks = (numBricks / 4000) * priceBricks4000;
         const costCement = cementBags * PRICE_CEMENT_BAG;
         const totalCost = costBricks + costCement;
 
-        // النتائج
         const result =
-            `📏 حجم الجدار الكلي قبل طرح الفتحات = ${totalWallVolume.toFixed(2)} م³\n` +
-            `🪟 حجم الفتحات (الأبواب + الشبابيك) = ${removedVolume.toFixed(2)} م³\n` +
-            `📐 الحجم الصافي بعد الطرح = ${netWallVolume.toFixed(2)} م³\n\n` +
-            `🧱 عدد الطابوق = ${formatNumber(finalBricks)} طابوقة\n` +
-            `🪣 حجم المونة = ${finalMortar.toFixed(2)} م³\n` +
-            `💼 عدد أكياس السمنت = ${cementBags} كيس\n` +
-            `🏖️ حجم الرمل = ${sandVolume.toFixed(2)} م³\n\n` +
-            `💰 تكلفة الطابوق (${brickType}) = ${formatNumber(costBricks)} د.ع\n` +
-            `💰 تكلفة السمنت = ${formatNumber(costCement)} د.ع\n` +
-            `💵 التكلفة الكلية التقديرية = ${formatNumber(totalCost)} د.ع`;
+            `حجم الجدار قبل الطرح = ${grossWallVolume.toFixed(3)} م³\n` +
+            `حجم الشبابيك = ${windowsVolume.toFixed(3)} م³\n` +
+            `حجم الأبواب = ${doorsVolume.toFixed(3)} م³\n` +
+            `الحجم الصافي = ${netWallVolume.toFixed(3)} م³\n\n` +
+            `عدد الطابوق = ${formatNumber(numBricks)} طابوقة\n` +
+            `حجم المونة = ${mortarVolume.toFixed(3)} م³\n` +
+            `قيمة C = ${C.toFixed(4)} م³\n` +
+            `وزن السمنت = ${cementWeightKg.toFixed(1)} كغم\n` +
+            `عدد أكياس السمنت = ${cementBags} كيس\n` +
+            `حجم الرمل = ${sandVolume.toFixed(3)} م³\n\n` +
+            `تكلفة الطابوق (${brickType}) = ${formatNumber(costBricks)} د.ع\n` +
+            `تكلفة السمنت = ${formatNumber(costCement)} د.ع\n` +
+            `التكلفة الكلية = ${formatNumber(totalCost)} د.ع`;
 
         document.getElementById('bricksCementResult').innerText = result;
 
@@ -1551,7 +1715,6 @@ function calculateBricksCement() {
         document.getElementById('bricksCementResult').innerText = "حدث خطأ في الإدخال.";
     }
 }
-
 
 
 
@@ -1656,7 +1819,6 @@ function togglePlasterWhiteThickness() {
         whiteGroup.style.display = 'block';
     }
 }
-
 function calculatePlasterWhite() {
     try {
         const roomLength = getInputValue('roomLength');
@@ -1674,11 +1836,11 @@ function calculatePlasterWhite() {
 
         if (materialType === "plaster") {
             materialThickness = getInputValue('plasterThickness');
-            bagsPerM3 = 35; // Example: Assuming 35 bags of plaster per cubic meter
+            bagsPerM3 = 35;
             bagPrice = plasterBagPrice;
-        } else { // white
+        } else {
             materialThickness = getInputValue('whiteThickness');
-            bagsPerM3 = 100; // Example: Assuming 100 bags of white per cubic meter
+            bagsPerM3 = 100;
             bagPrice = whiteBagPrice;
         }
 
@@ -1687,7 +1849,6 @@ function calculatePlasterWhite() {
             throw new Error("تأكد من إدخال جميع الأبعاد، السماكة، والسعر بشكل صحيح (يجب أن تكون أكبر من صفر).");
         }
 
-        // Calculate total area for windows and doors
         let totalWindowArea = 0;
         plasterWindowEntries.forEach(entry => {
             const w_l = parseFloat(entry.lengthInput.value);
@@ -1711,19 +1872,32 @@ function calculatePlasterWhite() {
         const ceilingArea = ceilingLength * ceilingWidth;
         const totalArea = netWallArea + ceilingArea;
 
-        // Calculate volume of material needed
         const materialVolume = totalArea * materialThickness;
 
-        // Calculate number of bags and total cost
-        const numBags = materialVolume * bagsPerM3; // Bags needed
+        const numBags = materialVolume * bagsPerM3;
         const totalCost = numBags * bagPrice;
+
+        // -------------------------------------------------------
+        //  🔥 حساب وزن الجص أو الأبيض حسب طلبك فقط
+        // -------------------------------------------------------
+        let materialWeight = 0;
+
+        if (materialType === "plaster") {
+            const thickness_cm = materialThickness * 100; // تحويل متر → سم
+            materialWeight = 1.05 *totalArea * (25 * (thickness_cm / 1)); // 25 كغم لكل 1 سم / م²
+        } else {
+            const thickness_mm = materialThickness * 1000; // تحويل متر → ملم
+            materialWeight = 1.05 * totalArea * (3.5 * (thickness_mm / 1)); // 3.5 كغم لكل 1 ملم / م²
+        }
+        // -------------------------------------------------------
 
         const result =
             `مساحة الجدران الصافية: ${netWallArea.toFixed(2)} م²\n` +
             `مساحة السقف: ${ceilingArea.toFixed(2)} م²\n` +
             `المساحة الكلية للمادة: ${totalArea.toFixed(2)} م²\n` +
             `حجم المادة المطلوب: ${materialVolume.toFixed(3)} م³\n` +
-            `عدد الأكياس المطلوبة: ${formatNumber(Math.ceil(numBags))} كيس\n` + // Round up bags
+            `وزن المادة المطلوب: ${materialWeight.toFixed(2)} كيلوغرام\n` + // 🔥 الإضافة هنا
+            `عدد الأكياس المطلوبة: ${formatNumber(Math.ceil(numBags))} كيس\n` +
             `الكلفة الكلية للمادة: ${formatNumber(totalCost)} د.ع`;
 
         document.getElementById('plasterWhiteResult').innerText = result;
@@ -1733,6 +1907,7 @@ function calculatePlasterWhite() {
         document.getElementById('plasterWhiteResult').innerText = "حدث خطأ في الإدخال.";
     }
 }
+
 
 
 // Initial setup calls
