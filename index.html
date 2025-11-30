@@ -395,7 +395,7 @@ button:hover {
         </section>
 
         <section class="calculator-group">
-            <h2 class="section-title" data-target="excavation-fill-section">الحفر والردم (السبيس)</h2>
+            <h2 class="section-title" data-target="excavation-fill-section">ألاعمال الترابية</h2>
             <div id="excavation-fill-section" class="calculator-content hidden-content">
                 <div class="input-group radio-group">
                     <label>اختر نوع الحساب:</label>
@@ -1078,12 +1078,15 @@ function calculateExcavationFill() {
             }
 
             const Y = H2 - H1;
+            const V = Y * A1
             const T = Y * A1 * 1.25; // 1.25 for expansion factor of excavated soil
+
             const N = T / V1;
             const totalPriceHfr = N * P;
 
             resultLines.push("---- الحفر ----");
             resultLines.push(`عمق الحفر: ${Y.toFixed(2)} م`);
+            resultLines.push(`حجم الحفر: ${V.toFixed(2)} م³`);
             resultLines.push(`كمية الحفر: ${T.toFixed(2)} م³`);
             resultLines.push(`عدد السيارات المطلوبة: ${N.toFixed(2)}`);
             resultLines.push(`السعر الكلي للحفر: ${formatNumber(totalPriceHfr)} د.ع`);
@@ -1109,6 +1112,7 @@ function calculateExcavationFill() {
                 const T2 = A2 * (H3_m + 0.02); // 0.02 for compaction
                 const N1 = T2 / V2;
                 const priceRdm = N1 * P1;
+                resultLines.push("ارتفاع الردم أقل من 25 سم → طبقة واحدة:");
                 resultLines.push(`كمية الردم: ${T2.toFixed(2)} م³`);
                 resultLines.push(`عدد السيارات: ${N1.toFixed(2)}`);
                 resultLines.push(`السعر الكلي للردم: ${formatNumber(priceRdm)} د.ع`);
